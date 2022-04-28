@@ -1,0 +1,80 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 900;
+            height: 900;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"cat": "Iris-setosa", "color": "#0072B2", "feature": "petal_length", "id": 0, "label": "petal_length \u003c= 1.9\nentropy = 1.58\nsamples = 150\nvalues = [50 50 50]\nclass = Iris-setosa", "level": 0, "shape": "box", "size": 10, "title": "split", "value": 1.9}, {"cat": "Iris-setosa", "color": "#0072B2", "id": 1, "label": "entropy = -0.0\nsamples = 50\nvalues = [50  0  0]\nclass = Iris-setosa", "level": 1, "shape": "ellipse", "size": 10, "title": "leaf"}, {"cat": "Iris-versicolor", "color": "#E69F00", "feature": "petal_length", "id": 2, "label": "petal_length \u003c= 4.7\nentropy = 1.0\nsamples = 100\nvalues = [50 50  0]\nclass = Iris-versicolor", "level": 1, "shape": "box", "size": 10, "title": "split", "value": 4.7}, {"cat": "Iris-versicolor", "color": "#E69F00", "feature": "sepal_length", "id": 3, "label": "sepal_length \u003c= 4.9\nentropy = 0.15\nsamples = 45\nvalues = [44  1  0]\nclass = Iris-versicolor", "level": 2, "shape": "box", "size": 10, "title": "split", "value": 4.9}, {"cat": "Iris-virginica", "color": "#F0E442", "feature": "petal_length", "id": 8, "label": "petal_length \u003c= 5.1\nentropy = 0.5\nsamples = 55\nvalues = [49  6  0]\nclass = Iris-virginica", "level": 2, "shape": "box", "size": 10, "title": "split", "value": 5.1}, {"cat": "Iris-versicolor", "color": "#E69F00", "feature": "sepal_width", "id": 4, "label": "sepal_width \u003c= 2.4\nentropy = 1.0\nsamples = 2\nvalues = [1 1 0]\nclass = Iris-versicolor", "level": 3, "shape": "box", "size": 10, "title": "split", "value": 2.4}, {"cat": "Iris-versicolor", "color": "#E69F00", "id": 7, "label": "entropy = -0.0\nsamples = 43\nvalues = [43  0  0]\nclass = Iris-versicolor", "level": 3, "shape": "ellipse", "size": 10, "title": "leaf"}, {"cat": "Iris-versicolor", "color": "#E69F00", "id": 5, "label": "entropy = -0.0\nsamples = 1\nvalues = [1 0 0]\nclass = Iris-versicolor", "level": 4, "shape": "ellipse", "size": 10, "title": "leaf"}, {"cat": "Iris-virginica", "color": "#F0E442", "id": 6, "label": "entropy = -0.0\nsamples = 1\nvalues = [1 0 0]\nclass = Iris-virginica", "level": 4, "shape": "ellipse", "size": 10, "title": "leaf"}, {"cat": "Iris-virginica", "color": "#F0E442", "feature": "sepal_length", "id": 9, "label": "sepal_length \u003c= 6.5\nentropy = 0.86\nsamples = 21\nvalues = [15  6  0]\nclass = Iris-virginica", "level": 3, "shape": "box", "size": 10, "title": "split", "value": 6.5}, {"cat": "Iris-virginica", "color": "#F0E442", "id": 28, "label": "entropy = -0.0\nsamples = 34\nvalues = [34  0  0]\nclass = Iris-virginica", "level": 3, "shape": "ellipse", "size": 10, "title": "leaf"}, {"cat": "Iris-virginica", "color": "#F0E442", "feature": "sepal_length", "id": 10, "label": "sepal_length \u003c= 5.8\nentropy = 0.67\nsamples = 17\nvalues = [14  3  0]\nclass = Iris-virginica", "level": 4, "shape": "box", "size": 10, "title": "split", "value": 5.8}, {"cat": "Iris-versicolor", "color": "#E69F00", "feature": "petal_length", "id": 25, "label": "petal_length \u003c= 5.0\nentropy = 0.81\nsamples = 4\nvalues = [3 1 0]\nclass = Iris-versicolor", "level": 4, "shape": "box", "size": 10, "title": "split", "value": 5.0}, {"cat": "Iris-virginica", "color": "#F0E442", "id": 11, "label": "entropy = -0.0\nsamples = 5\nvalues = [5 0 0]\nclass = Iris-virginica", "level": 5, "shape": "ellipse", "size": 10, "title": "leaf"}, {"cat": "Iris-virginica", "color": "#F0E442", "feature": "sepal_length", "id": 12, "label": "sepal_length \u003c= 6.0\nentropy = 0.81\nsamples = 12\nvalues = [9 3 0]\nclass = Iris-virginica", "level": 5, "shape": "box", "size": 10, "title": "split", "value": 6.0}, {"cat": "Iris-virginica", "color": "#F0E442", "feature": "sepal_width", "id": 13, "label": "sepal_width \u003c= 3.0\nentropy = 0.97\nsamples = 5\nvalues = [3 2 0]\nclass = Iris-virginica", "level": 6, "shape": "box", "size": 10, "title": "split", "value": 3.0}, {"cat": "Iris-virginica", "color": "#F0E442", "feature": "sepal_width", "id": 20, "label": "sepal_width \u003c= 2.5\nentropy = 0.59\nsamples = 7\nvalues = [6 1 0]\nclass = Iris-virginica", "level": 6, "shape": "box", "size": 10, "title": "split", "value": 2.5}, {"cat": "Iris-virginica", "color": "#F0E442", "feature": "sepal_width", "id": 14, "label": "sepal_width \u003c= 2.7\nentropy = 0.81\nsamples = 4\nvalues = [3 1 0]\nclass = Iris-virginica", "level": 7, "shape": "box", "size": 10, "title": "split", "value": 2.7}, {"cat": "Iris-versicolor", "color": "#E69F00", "id": 19, "label": "entropy = -0.0\nsamples = 1\nvalues = [1 0 0]\nclass = Iris-versicolor", "level": 7, "shape": "ellipse", "size": 10, "title": "leaf"}, {"cat": "Iris-versicolor", "color": "#E69F00", "feature": "sepal_width", "id": 15, "label": "sepal_width \u003c= 2.2\nentropy = 1.0\nsamples = 2\nvalues = [1 1 0]\nclass = Iris-versicolor", "level": 8, "shape": "box", "size": 10, "title": "split", "value": 2.2}, {"cat": "Iris-virginica", "color": "#F0E442", "id": 18, "label": "entropy = -0.0\nsamples = 2\nvalues = [2 0 0]\nclass = Iris-virginica", "level": 8, "shape": "ellipse", "size": 10, "title": "leaf"}, {"cat": "Iris-virginica", "color": "#F0E442", "id": 16, "label": "entropy = -0.0\nsamples = 1\nvalues = [1 0 0]\nclass = Iris-virginica", "level": 9, "shape": "ellipse", "size": 10, "title": "leaf"}, {"cat": "Iris-versicolor", "color": "#E69F00", "id": 17, "label": "entropy = -0.0\nsamples = 1\nvalues = [1 0 0]\nclass = Iris-versicolor", "level": 9, "shape": "ellipse", "size": 10, "title": "leaf"}, {"cat": "Iris-versicolor", "color": "#E69F00", "feature": "petal_length", "id": 21, "label": "petal_length \u003c= 4.9\nentropy = 1.0\nsamples = 2\nvalues = [1 1 0]\nclass = Iris-versicolor", "level": 7, "shape": "box", "size": 10, "title": "split", "value": 4.9}, {"cat": "Iris-virginica", "color": "#F0E442", "id": 24, "label": "entropy = -0.0\nsamples = 5\nvalues = [5 0 0]\nclass = Iris-virginica", "level": 7, "shape": "ellipse", "size": 10, "title": "leaf"}, {"cat": "Iris-versicolor", "color": "#E69F00", "id": 22, "label": "entropy = -0.0\nsamples = 1\nvalues = [1 0 0]\nclass = Iris-versicolor", "level": 8, "shape": "ellipse", "size": 10, "title": "leaf"}, {"cat": "Iris-virginica", "color": "#F0E442", "id": 23, "label": "entropy = -0.0\nsamples = 1\nvalues = [1 0 0]\nclass = Iris-virginica", "level": 8, "shape": "ellipse", "size": 10, "title": "leaf"}, {"cat": "Iris-versicolor", "color": "#E69F00", "id": 26, "label": "entropy = -0.0\nsamples = 3\nvalues = [3 0 0]\nclass = Iris-versicolor", "level": 5, "shape": "ellipse", "size": 10, "title": "leaf"}, {"cat": "Iris-virginica", "color": "#F0E442", "id": 27, "label": "entropy = -0.0\nsamples = 1\nvalues = [1 0 0]\nclass = Iris-virginica", "level": 5, "shape": "ellipse", "size": 10, "title": "leaf"}]);
+        edges = new vis.DataSet([{"arrows": "to", "from": 0, "title": "left", "to": 1, "weight": 1}, {"arrows": "to", "from": 0, "title": "right", "to": 2, "weight": 1}, {"arrows": "to", "from": 2, "title": "left", "to": 3, "weight": 1}, {"arrows": "to", "from": 2, "title": "right", "to": 8, "weight": 1}, {"arrows": "to", "from": 3, "title": "left", "to": 4, "weight": 1}, {"arrows": "to", "from": 3, "title": "right", "to": 7, "weight": 1}, {"arrows": "to", "from": 4, "title": "left", "to": 5, "weight": 1}, {"arrows": "to", "from": 4, "title": "right", "to": 6, "weight": 1}, {"arrows": "to", "from": 8, "title": "left", "to": 9, "weight": 1}, {"arrows": "to", "from": 8, "title": "right", "to": 28, "weight": 1}, {"arrows": "to", "from": 9, "title": "left", "to": 10, "weight": 1}, {"arrows": "to", "from": 9, "title": "right", "to": 25, "weight": 1}, {"arrows": "to", "from": 10, "title": "left", "to": 11, "weight": 1}, {"arrows": "to", "from": 10, "title": "right", "to": 12, "weight": 1}, {"arrows": "to", "from": 12, "title": "left", "to": 13, "weight": 1}, {"arrows": "to", "from": 12, "title": "right", "to": 20, "weight": 1}, {"arrows": "to", "from": 13, "title": "left", "to": 14, "weight": 1}, {"arrows": "to", "from": 13, "title": "right", "to": 19, "weight": 1}, {"arrows": "to", "from": 14, "title": "left", "to": 15, "weight": 1}, {"arrows": "to", "from": 14, "title": "right", "to": 18, "weight": 1}, {"arrows": "to", "from": 15, "title": "left", "to": 16, "weight": 1}, {"arrows": "to", "from": 15, "title": "right", "to": 17, "weight": 1}, {"arrows": "to", "from": 20, "title": "left", "to": 21, "weight": 1}, {"arrows": "to", "from": 20, "title": "right", "to": 24, "weight": 1}, {"arrows": "to", "from": 21, "title": "left", "to": 22, "weight": 1}, {"arrows": "to", "from": 21, "title": "right", "to": 23, "weight": 1}, {"arrows": "to", "from": 25, "title": "left", "to": 26, "weight": 1}, {"arrows": "to", "from": 25, "title": "right", "to": 27, "weight": 1}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {"layout": {"hierarchical": {"enabled": true, "nodeSpacing": 120}}, "physics": {"hierarchicalRepulsion": {"centralGravity": 0, "nodeDistance": 180}, "minVelocity": 0.75, "solver": "hierarchicalRepulsion"}};
+        
+        
+
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>
